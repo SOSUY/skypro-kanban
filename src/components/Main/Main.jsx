@@ -1,27 +1,44 @@
-import "../App/App.css";
-import Column from "../Column/Column";
-import Card from "../Card/Card";
+import { Column } from "../Column/Column";
+// import { cardList } from "../../data";
+import { MainStyle, MainBlock, MainContent } from "../Main/Main.styled";
 
-export default function Main() {
-    return (
-        <main className="main">
-            <div className="container">
-                <div className="main__block">
-                    <div className="main__content">
-                        <div className="columns">
-                            <Column title="To Do">
-                                <Card title="Сделать ДЗ" description="Разобрать код на компоненты" />
-                            </Column>
-                            <Column title="In Progress">
-                                <Card title="Настроить проект" description="Подключить шрифты и стили" />
-                            </Column>
-                            <Column title="Done">
-                                <Card title="Установить Vite" description="Инициализация проекта" />
-                            </Column>
-                        </div>
-                    </div>
-                </div>
+export const Main = ({ loading, tasks, error }) => {
+  const columnTitles = [
+    "БЕЗ СТАТУСА",
+    "НУЖНО СДЕЛАТЬ",
+    "В РАБОТЕ",
+    "ТЕСТИРОВАНИЕ",
+    "ГОТОВО",
+  ];
+
+  return (
+    <MainStyle>
+      <div className="container">
+        <MainBlock>
+          {loading ? (
+            <div className="loading-message">
+              <p>Данные загружаются...</p>
             </div>
-        </main>
-    );
-}
+          ) : (
+            <MainContent>
+              {/* Используем .map() для рендеринга каждой колонки */}
+              {columnTitles.map((title) => (
+                <Column
+                  key={title}
+                  title={title}
+                  tasks={tasks}
+                  loading={loading}
+                  // Фильтруем `cardList` по статусу и передаем отфильтрованный список карточек в Column
+                  cardList={tasks.filter(
+                    (task) => task.status.toLowerCase() === title.toLowerCase()
+                  )}
+                />
+              ))}
+            </MainContent>
+          )}
+        </MainBlock>
+      </div>
+      <p>{error}</p>
+    </MainStyle>
+  );
+};

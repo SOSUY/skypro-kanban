@@ -1,13 +1,6 @@
-import AuthProvider from "./components/context/AuthProvider.jsx";
-import AppRoutes from "./components/AppRoutes.jsx";
-import "./components/App/App.css";
+import "./App.css";
+import AppRoutes from "./components/AppRoutes";
 
-function App() {
-    return (
-        <AuthProvider>
-            <AppRoutes />
-        </AuthProvider>
-    );
-}
-
-export default App;
+export const App = () => {
+  return <AppRoutes />;
+};
